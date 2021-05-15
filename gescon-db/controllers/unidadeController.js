@@ -113,7 +113,8 @@ const deleteById = (request, response) => {
 const alterById = (request, response) => {
     const unid = {
         numero: request.body.numero,
-        idproprietario: request.body.idproprietario
+        idproprietario: request.body.idproprietario,
+        idcondominio: request.body.idcondominio
     };
 
     Unidade.update(unid, {

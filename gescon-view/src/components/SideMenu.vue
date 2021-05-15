@@ -8,6 +8,7 @@
       <b-nav-item href="/servico">Serviços</b-nav-item>
       <b-nav-item href="/proprietario">Proprietários</b-nav-item>
       <b-nav-item href="/unidade">Unidades</b-nav-item>
+      <b-nav-item href="/cobranca">Cobrança</b-nav-item>
     </b-sidebar>
   </div>
 </template>

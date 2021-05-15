@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>
-      Unidades
+      Cobrança
       <b-icon
         @click="criar()"
         icon="folder-plus"
@@ -11,7 +11,7 @@
     </h1>
 
     <div class="table">
-      <b-table striped hover :items="unidades" :fields="fields">
+      <b-table striped hover :items="cobrancas" :fields="fields">
         <template v-slot:cell(editar)="modelEdit">
           <b-button @click="editar(modelEdit.item)">Editar</b-button>
         </template>
@@ -21,33 +21,33 @@
     <b-modal
       :id="modalData.id"
       size="xl"
-      title="Cadastro Unidade"
+      title="Cadastro Cobrança"
       @ok="onSubmit"
       @hide="resetarModal()"
       ok-title="Salvar"
     >
       <b-form>
-        <form-unidade
+        <form-cobranca
           v-on:handler="atualizar"
           :editar="modalData.model"
           :callback="modalData.callback"
-        ></form-unidade>
+        ></form-cobranca>
       </b-form>
     </b-modal>
   </div>
 </template>
 
 <script>
-import FormUnidade from "../components/FormUnidade.vue";
+import FormCobranca from "../components/FormCobranca.vue";
 
 export default {
-  components: { FormUnidade },
-  name: "Unidade",
+  components: { FormCobranca },
+  name: "Cobranca",
   mounted() {
     this.$http
-      .get("/unidade")
+      .get("/cobranca")
       .then((result) => {
-        this.unidades = result.data;
+        this.cobrancas = result.data;
       })
       .catch((error) => {
         console.log(error);
@@ -55,31 +55,18 @@ export default {
   },
   data() {
     return {
-      formUnidade: {
+      formCob: {
+        idcobranca: null,
         idunidade: null,
-        numero: null,
-        idproprietario: null,
-        idcondominio: null,
-        proprietario: {
-          idproprietario: null,
-          nome: "",
-          cpf: "",
-          telefone: "",
-        },
-        condominio: {
-          idcondominio: null,
-          nome: "",
-          telefone: "",
+        descricao: null,
+        valor: null,
+        unidade: {
+          idunidade: null,
+          numero: null,
         },
       },
-      unidades: [],
-      fields: [
-        "idunidade",
-        "numero",
-        "proprietario.nome",
-        "condominio.nome",
-        "editar",
-      ],
+      cobrancas: [],
+      fields: ["idcobranca", "unidade.idunidade", "descricao", "valor", "editar"],
       modalData: {
         id: "modalEdit",
         model: null,
@@ -90,9 +77,9 @@ export default {
   methods: {
     carregarDados() {
       this.$http
-        .get("/unidade")
+        .get("/cobranca")
         .then((result) => {
-          this.unidades = result.data;
+          this.cobrancas = result.data;
         })
         .catch((error) => {
           console.log(error);
@@ -102,7 +89,7 @@ export default {
     criar() {
       this.modalData.callback = (dados) => {
         this.$http
-          .post("/unidade", dados)
+          .post("/cobranca", dados)
           .then(() => {
             this.carregarDados();
           })
@@ -116,8 +103,9 @@ export default {
     editar(modelEdit) {
       this.modalData.model = modelEdit;
       this.modalData.callback = (dados) => {
+        console.log(dados);
         this.$http
-          .put("/unidade/" + dados.idunidade, dados)
+          .put("/cobranca/" + dados.idcobranca, dados)
           .then(() => {
             this.carregarDados();
           })
@@ -133,13 +121,13 @@ export default {
     },
 
     onSubmit() {
-      this.modalData.callback(this.formUnidade);
+      this.modalData.callback(this.formCob);
     },
     atualizar(evento) {
-      this.formUnidade.idunidade = evento.idunidade;
-      this.formUnidade.numero = evento.numero;
-      this.formUnidade.idproprietario = evento.idproprietario;
-      this.formUnidade.idcondominio = evento.idcondominio;
+      this.formCob.idcobranca = evento.idcobranca;
+      this.formCob.idunidade = evento.idunidade;
+      this.formCob.descricao = evento.descricao;
+      this.formCob.valor = evento.valor;
     },
   },
 };

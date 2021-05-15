@@ -6,6 +6,7 @@ import Servico from '../views/Servico.vue'
 import Condominio from '../views/Condominio.vue'
 import Proprietario from '../views/Proprietario.vue'
 import Unidade from '../views/Unidade.vue'
+import Cobranca from '../views/Cobranca.vue'
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
     path: '/unidade',
     name: 'Unidade',
     component: Unidade
+  },
+  {
+    path: '/cobranca',
+    name: 'Cobranca',
+    component: Cobranca
   },
 ]
 

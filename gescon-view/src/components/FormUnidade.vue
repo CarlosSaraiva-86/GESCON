@@ -39,8 +39,8 @@
           <b-form-select id="input-prop" v-model="formUnidade.idproprietario">
             <option
               v-for="modelSelected in proprietarios"
-              :key="modelSelected.idpropritario"
-              :value="modelSelected.idpropritario"
+              :key="modelSelected.idproprietario"
+              :value="modelSelected.idproprietario"
             >
               {{ modelSelected.nome }}
             </option>
@@ -101,6 +101,8 @@ export default {
       formUnidade: {
         idunidade: null,
         numero: null,
+        idproprietario: null,
+        idcondominio: null,
         proprietario: {
           idproprietario: null,
           nome: "",
