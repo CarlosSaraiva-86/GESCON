@@ -110,7 +110,7 @@ const alterById = (request, response) => {
 
     Cobranca.update(cob, {
         raw: true,
-        where: { idunidade: request.params.id },
+        where: { idcobranca: request.params.id },
     }).then((object) => {
         response.status(200)
             .send("Cobrança de id = " + request.params.id + " Atualizado!")

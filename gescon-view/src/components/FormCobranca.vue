@@ -13,7 +13,11 @@
       </div>
       <div class="col-md-2">
         <b-form-group id="input-group-1">
-          <b-form-select id="input-cond" v-model="formCob.idunidade">
+          <b-form-select
+            id="input-cond"
+            v-model="formCob.idunidade"
+            @change="carregarUnidade($event)"
+          >
             <option
               v-for="modelSelected in unidades"
               :key="modelSelected.idunidade"
@@ -24,6 +28,28 @@
           </b-form-select>
         </b-form-group>
       </div>
+      <div class="col-md-4">
+        <b-form-group id="input-group-1">
+          <b-form-input
+            id="input-nome"
+            v-model="formCob.unidade.condominio.nome"
+            placeholder="Condomínio"
+            disabled
+          ></b-form-input>
+        </b-form-group>
+      </div>
+      <div class="col-md-4">
+        <b-form-group id="input-group-1">
+          <b-form-input
+            id="input-nome"
+            v-model="formCob.unidade.proprietario.nome"
+            placeholder="Proprietário"
+            disabled
+          ></b-form-input>
+        </b-form-group>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-6">
         <b-form-group id="input-group-1">
           <b-form-input
@@ -34,7 +60,7 @@
           ></b-form-input>
         </b-form-group>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <b-form-group id="input-group-2">
           <b-form-input
             id="input-valor"
@@ -65,6 +91,15 @@ export default {
         idunidade: null,
         descricao: "",
         valor: null,
+        unidade: {
+          idunidade: null,
+          condominio: {
+            nome: "",
+          },
+          proprietario: {
+            nome: "",
+          },
+        },
       },
       unidades: [],
     };
@@ -75,6 +110,7 @@ export default {
       this.formCob.idunidade = this.editar.unidade.idunidade;
       this.formCob.descricao = this.editar.descricao;
       this.formCob.valor = this.editar.valor;
+      this.carregarUnidade(this.formCob.idunidade);
     }
     this.$http
       .get("/unidade")
@@ -84,7 +120,6 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-      console.log(this.unidades);
   },
   watch: {
     formCob: {
@@ -92,6 +127,19 @@ export default {
         this.$emit("handler", this.formCob);
       },
       deep: true,
+    },
+  },
+  methods: {
+    carregarUnidade(evento) {
+      this.$http
+        .get("/unidade/" + evento)
+        .then((result) => {
+          console.log(result.data);
+          this.formCob.unidade = result.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

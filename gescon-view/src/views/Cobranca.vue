@@ -63,10 +63,20 @@ export default {
         unidade: {
           idunidade: null,
           numero: null,
+          condominio: {
+            nome: "",
+          },
         },
       },
       cobrancas: [],
-      fields: ["idcobranca", "unidade.idunidade", "descricao", "valor", "editar"],
+      fields: [
+        "idcobranca",
+        "unidade.idunidade",
+        "unidade.condominio.nome",
+        "descricao",
+        "valor",
+        "editar",
+      ],
       modalData: {
         id: "modalEdit",
         model: null,
