@@ -2,12 +2,13 @@
   <div>
     <h1>
       Unidades
+      <b-button @click="criar()" variant="primary">
       <b-icon
-        @click="criar()"
         icon="folder-plus"
-        class="rounded bg-primary"
+        class="rounded"
         variant="light"
-      ></b-icon>
+      ></b-icon>Novo
+      </b-button>
     </h1>
 
     <div class="table">

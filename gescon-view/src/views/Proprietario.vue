@@ -2,12 +2,13 @@
   <div>
     <h1>
       Proprietários
+      <b-button @click="criar()" variant="primary">
       <b-icon
-        @click="criar()"
         icon="folder-plus"
-        class="rounded bg-primary"
+        class="rounded"
         variant="light"
-      ></b-icon>
+      ></b-icon>Novo
+      </b-button>
     </h1>
 
     <div class="table">
@@ -170,5 +171,8 @@ export default {
 }
 div.table {
   margin: 30px;
+}
+.b-icon{
+  margin-right: 5px;
 }
 </style>
