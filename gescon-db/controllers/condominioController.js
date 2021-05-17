@@ -60,6 +60,7 @@ const getAll = (request, response) => {
         ],
         attributes: [
             "idcondominio",
+            "idadministradora",
             "nome",
             "telefone",
         ],

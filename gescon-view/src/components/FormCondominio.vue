@@ -31,6 +31,19 @@
           ></b-form-input>
         </b-form-group>
       </div>
+      <div class="col-md-4">
+        <b-form-group id="input-group-1">
+          <b-form-select id="input-cond" v-model="formCondominio.idadministradora">
+            <option
+              v-for="modelSelected in administradoras"
+              :key="modelSelected.idadministradora"
+              :value="modelSelected.idadministradora"
+            >
+              {{ modelSelected.nome }}
+            </option>
+          </b-form-select>
+        </b-form-group>
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +52,7 @@ export default {
   props: {
     editar: {
       idcondominio: null,
+      idadministradora: null,
       nome: "",
       telefone: "",
     },
@@ -48,17 +62,28 @@ export default {
     if(this.editar){
       console.log(this.editar)
       this.formCondominio.idcondominio = this.editar.idcondominio;
+      this.formCondominio.idadministradora = this.editar.idadministradora;
       this.formCondominio.nome = this.editar.nome;
       this.formCondominio.telefone = this.editar.telefone;
     }
+    this.$http
+      .get("/administradora")
+      .then((result) => {
+        this.administradoras = result.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   data() {
     return {
       formCondominio: {
         idcondominio: null,
+        idadministradora: null,
         nome: "",
         telefone: "",
       },
+      administradoras: []
     };
   },
   watch: {

@@ -14,6 +14,7 @@
       <b-table striped hover :items="administradoras" :fields="fields">
         <template v-slot:cell(editar)="modelEdit">
           <b-button @click="editar(modelEdit.item)">Editar</b-button>
+          <b-button variant="danger" @click="deletar(modelEdit.item)">Excluir</b-button>
         </template>
       </b-table>
     </div>
@@ -94,6 +95,7 @@ export default {
           console.log(error);
         });
     },
+    
     criar() {
       this.modalData.callback = (dados) => {
         this.$http
@@ -123,6 +125,17 @@ export default {
           });
       };
       this.$root.$emit("bv::show::modal", this.modalData.id);
+    },
+
+    deletar(modelEdit) {
+      this.$http
+        .delete("/administradora/" + modelEdit.idadministradora)
+        .then(() => {
+          this.carregarDados();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     resetarModal() {

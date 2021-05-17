@@ -14,6 +14,7 @@
       <b-table striped hover :items="condominios" :fields="fields">
         <template v-slot:cell(editar)="modelEdit">
           <b-button @click="editar(modelEdit.item)">Editar</b-button>
+          <b-button variant="danger" @click="deletar(modelEdit.item)">Excluir</b-button>
         </template>
       </b-table>
     </div>
@@ -62,6 +63,7 @@ export default {
     return {
       formCondominio: {
         idcondominio: 0,
+        idadministradora: 0,
         nome: "",
         telefone: "",
         endereco: {
@@ -126,6 +128,17 @@ export default {
       this.$root.$emit("bv::show::modal", this.modalData.id);
     },
 
+    deletar(modelEdit) {
+      this.$http
+        .delete("/condominio/" + modelEdit.idcondominio)
+        .then(() => {
+          this.carregarDados();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
     resetarModal() {
       this.modalData.model = null;
       this.modalData.endereco = null;
@@ -137,6 +150,7 @@ export default {
 
     atualizar(evento) {
       this.formCondominio.idcondominio = evento.idcondominio;
+      this.formCondominio.idadministradora = evento.idadministradora;
       this.formCondominio.nome = evento.nome;
       this.formCondominio.telefone = evento.telefone;
     },
