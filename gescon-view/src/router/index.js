@@ -7,12 +7,19 @@ import Condominio from '../views/Condominio.vue'
 import Proprietario from '../views/Proprietario.vue'
 import Unidade from '../views/Unidade.vue'
 import Cobranca from '../views/Cobranca.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
+    name: 'Login',
+    component: Login,
+    meta: { notRenderMenu: true }
+  },
+  {
+    path: '/home',
     name: 'Home',
     component: Home
   },

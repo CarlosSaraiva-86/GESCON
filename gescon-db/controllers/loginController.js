@@ -29,9 +29,13 @@ const getAll = (request, response) => {
 };
 
 //Seleciona um evento acadêmico por ID
-const getById = (request, response) => {
-    Login.findByPk(request.params.id)
-        .then((object) => {
+const get = (request, response) => {
+    Login.findOne({ where: 
+        { 
+            usuario: request.body.usuario, 
+            senha: request.body.senha 
+        }
+     }).then((object) => {
             response.status(200).send(object.dataValues);
         })
         .catch((error) => {
@@ -87,7 +91,7 @@ const deleteById = (request, response) => {
 module.exports = {
     create,
     getAll,
-    getById,
+    get,
     alterById,
     deleteById,
 };

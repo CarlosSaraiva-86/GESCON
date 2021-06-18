@@ -52,10 +52,9 @@ router.delete("/cobranca/:id", cobrancaController.deleteById);
 router.put("/cobranca/:id", cobrancaController.alterById);
 router.get("/cobranca/:id", cobrancaController.getById);
 
-router.post("/login", loginController.create);
+router.put("/login", loginController.create);
+router.post("/login", loginController.get);
 router.get("/login", loginController.getAll);
 router.delete("/login/:id", loginController.deleteById);
-router.put("/login/:id", loginController.alterById);
-router.get("/login/:id", loginController.getById);
 
 module.exports = router;

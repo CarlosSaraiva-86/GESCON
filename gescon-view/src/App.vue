@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <side-menu></side-menu>
+    <side-menu v-if="renderMenu()"></side-menu>
     <router-view />
   </div>
 </template>
@@ -10,6 +10,11 @@ import SideMenu from './components/SideMenu.vue';
 
 export default {
   components: { SideMenu },
+  methods:{
+    renderMenu(){
+      return !this.$route.matched.some(record => record.meta.notRenderMenu);
+    }
+  }
 };
 </script>
 
