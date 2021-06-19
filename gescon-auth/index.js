@@ -31,7 +31,6 @@ passport.use(new LocalStrategy({
     (username, password, done) => {
        axios.post("http://localhost:8888/api/login", {usuario: username, senha: password})
         .then(response => {
-            console.log(response.data);
             done(null, response.data);
         }).catch(error => { done(null, false, { message: "Usuário ou senha incorreto!" }); });
     })
@@ -45,17 +44,17 @@ app.use(passport.session());
 
 app.post("/api/login", (request, response, next) => {
     passport.authenticate("local", (err, user, info) => {
-      if (err) return next(err);
-  
+      if (err) return next(err);  
       if (!user)
         return response.status(400).send([user, "Não foi possível logar!", info]);
-  
+        console.log(user);
       request.login(user, (err) => {
-        response.send("Logado no servidor!");
+        response.send(user);
       });
     })(request, response, next);
   });
-  
+
+
   app.get("/api/logout", function (request, response) {
     req.logout();
   
@@ -76,7 +75,6 @@ app.post("/api/login", (request, response, next) => {
   };
   
   app.get("/api/user", authMiddleware, (request, response) => {
-    console.log(request.session);
     let user = users.find((user) => {
       return user.id === request.session.passport.usuario;
     });
@@ -86,20 +84,7 @@ app.post("/api/login", (request, response, next) => {
     response.send({ userid: user.id, username: user.usuario });
   });
   
-  //Chamado na direção back-end->front-end
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-  
-  //Chamado na direção front-end->back-end
-  passport.deserializeUser((id, done) => {
-    let user = users.find((user) => {
-      return user.id === id;
-    });
-  
-    done(null, user);
-  });
-  
+   
   app.listen(3030, () => {
     console.log("Servidor auth está ouvindo na porta 3030!");
   });

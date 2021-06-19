@@ -41,7 +41,7 @@ export default {
     },
   },
   mounted() {
-    this.getUserData();
+    //this.getUserData();
   },
 };
 </script>
