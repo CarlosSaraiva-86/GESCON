@@ -51,6 +51,7 @@ export default {
   name: "Condominio",
   components: { FormCondominio, FormEndereco },
   mounted() {
+    this.getUserData();
     this.$http
       .get("/condominio")
       .then((result) => {
@@ -87,6 +88,17 @@ export default {
     };
   },
   methods: {
+    getUserData() {
+      this.$auth.get("/api/user")
+        .then((response) => {
+          console.log(response.data);
+          this.$set(this, "user", response.data.user);
+        })
+        .catch((errors) => {
+          console.log(errors);
+          this.$router.push("/");
+        });
+    },
      carregarDados() {
       this.$http
         .get("/condominio")

@@ -23,17 +23,6 @@
 </template>
 
 <script>
-import axios from 'axios'
-
-const auth = axios.create({
-    baseURL: 'http://localhost:3030',
-    headers:{
-        'Accept': 'application/json',
-        'Content-type': 'application/json'
-    },
-    withCredentials: true
-});
-
 export default {
   data() {
     return {
@@ -50,7 +39,7 @@ export default {
         usuario: this.login.usuario,
         senha: this.login.senha,
       };
-      auth.post("/api/login", dataLogin)
+      this.$auth.post("/api/login", dataLogin)
         .then((response) => {
           console.log(response.data);
           this.$router.push("/home");

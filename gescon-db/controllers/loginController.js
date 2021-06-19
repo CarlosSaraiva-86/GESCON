@@ -43,7 +43,16 @@ const get = (request, response) => {
             response.status(400).send(error);
         });
 };
-
+const getById = (request, response) => {
+    Login.findByPk(request.params.id)
+        .then((object) => {
+            response.status(200).send(object.dataValues);
+        })
+        .catch((error) => {
+            console.error(error);
+            response.status(400).send(error);
+        });
+};
 //Altera um evento acadêmico dado um ID
 const alterById = (request, response) => {
     const paData = {
@@ -94,4 +103,5 @@ module.exports = {
     get,
     alterById,
     deleteById,
+    getById
 };

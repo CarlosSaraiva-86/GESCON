@@ -18,8 +18,7 @@ app.use(
     cookieSession({
         name: "S3CreT",
         keys: ["vueauthrandomkey"],
-        //maxAge: 3 * 1000, //50 segundos
-        maxAge: 24 * 60 * 60 * 1000, //24 horas
+        maxAge: 100,
     })
 );
 
@@ -47,14 +46,13 @@ app.post("/api/login", (request, response, next) => {
       if (err) return next(err);  
       if (!user)
         return response.status(400).send([user, "Não foi possível logar!", info]);
-        console.log(user);
       request.login(user, (err) => {
         response.send(user);
       });
     })(request, response, next);
   });
 
-
+  
   app.get("/api/logout", function (request, response) {
     req.logout();
   
@@ -75,16 +73,27 @@ app.post("/api/login", (request, response, next) => {
   };
   
   app.get("/api/user", authMiddleware, (request, response) => {
-    let user = users.find((user) => {
-      return user.id === request.session.passport.usuario;
-    });
-  
-    //console.log(user);
-    //console.log([user, request.session]);
-    response.send({ userid: user.id, username: user.usuario });
+    axios.get("http://localhost:8888/api/login/" + request.session.passport.user)
+    .then(object => {
+      response.send({ userid: object.data.idlogin, username: object.data.usuario });
+    }).catch(error => console.log(error));  
   });
   
-   
+  //Chamado na direção back-end->front-end
+  passport.serializeUser((user, done) => {
+    done(null, user.idlogin);
+  });
+  
+  //Chamado na direção front-end->back-end
+  passport.deserializeUser((id, done) => {
+    let user = axios.get("http://localhost:8888/api/login/" + id)
+    .then(response => {
+        return response.data;
+    }).catch(error => console.log(error));
+  
+    done(null, user);
+  });
+  
   app.listen(3030, () => {
     console.log("Servidor auth está ouvindo na porta 3030!");
   });

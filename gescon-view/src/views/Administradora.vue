@@ -3,11 +3,7 @@
     <h1>
       Administradoras
       <b-button @click="criar()" variant="primary">
-      <b-icon
-        icon="folder-plus"
-        class="rounded"
-        variant="light"
-      ></b-icon>Novo
+        <b-icon icon="folder-plus" class="rounded" variant="light"></b-icon>Novo
       </b-button>
     </h1>
 
@@ -15,7 +11,9 @@
       <b-table striped hover :items="administradoras" :fields="fields">
         <template v-slot:cell(editar)="modelEdit">
           <b-button @click="editar(modelEdit.item)">Editar</b-button>
-          <b-button variant="danger" @click="deletar(modelEdit.item)">Excluir</b-button>
+          <b-button variant="danger" @click="deletar(modelEdit.item)"
+            >Excluir</b-button
+          >
         </template>
       </b-table>
     </div>
@@ -51,6 +49,7 @@ export default {
   name: "Administradora",
   components: { FormEndereco, FormAdministradora },
   mounted() {
+    this.getUserData();
     this.$http
       .get("/administradora")
       .then((result) => {
@@ -86,6 +85,17 @@ export default {
     };
   },
   methods: {
+    getUserData() {
+      this.$auth.get("/api/user")
+        .then((response) => {
+          console.log(response.data);
+          this.$set(this, "user", response.data.user);
+        })
+        .catch((errors) => {
+          console.log(errors);
+          this.$router.push("/");
+        });
+    },
     carregarDados() {
       this.$http
         .get("/administradora")

@@ -6,16 +6,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
-const auth = axios.create({
-    baseURL: 'http://localhost:3030',
-    headers:{
-        'Accept': 'application/json',
-        'Content-type': 'application/json'
-    },
-    withCredentials: true
-});
 export default {
   name: "Home",
   data() {
@@ -28,8 +18,7 @@ export default {
   },
   methods: {
     getUserData() {
-      console.log(document.cookie);
-      auth.get("/api/user")
+      this.$auth.get("/api/user")
         .then((response) => {
           console.log(response.data);
           this.$set(this, "user", response.data.user);
@@ -41,7 +30,7 @@ export default {
     },
   },
   mounted() {
-    //this.getUserData();
+    this.getUserData();
   },
 };
 </script>

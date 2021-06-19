@@ -46,6 +46,7 @@ export default {
   name: "Servico",
   components: { FormServico },
   mounted() {
+    this.getUserData();
     this.$http
       .get("/servico")
       .then((result) => {
@@ -71,6 +72,17 @@ export default {
     };
   },
   methods: {
+    getUserData() {
+      this.$auth.get("/api/user")
+        .then((response) => {
+          console.log(response.data);
+          this.$set(this, "user", response.data.user);
+        })
+        .catch((errors) => {
+          console.log(errors);
+          this.$router.push("/");
+        });
+    },
     carregarDados() {
       this.$http
         .get("/servico")

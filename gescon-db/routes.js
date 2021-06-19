@@ -54,6 +54,7 @@ router.get("/cobranca/:id", cobrancaController.getById);
 
 router.put("/login", loginController.create);
 router.post("/login", loginController.get);
+router.get("/login/:id", loginController.getById);
 router.get("/login", loginController.getAll);
 router.delete("/login/:id", loginController.deleteById);
 

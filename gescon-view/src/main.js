@@ -16,7 +16,8 @@ Vue.use(IconsPlugin)
 Vue.use(VueCookies)
 
 Vue.config.productionTip = false
-Vue.prototype.$http = api
+Vue.prototype.$http = api.api
+Vue.prototype.$auth = api.loginApi
 
 new Vue({
   router,
